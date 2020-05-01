@@ -1,0 +1,56 @@
+<div class="container mt-4 mb-4">
+    <h1 class="text-center mt-2 mb-2 main-title">BOOK YOUR BARBER</h1>
+    <h2 class="text-center mt-2 mb-5 sub-title">
+        Great Hair Doesn’t Happen By Chance. It Happens By Appointment! 
+        <span class="d-none d-sm-block">So, Don't Wait And Book Your Appointment Now!</span>
+    </h2>
+    <div class="row bg-faded">
+        <div class="col mx-auto text-center">
+            <img src="https://i.imgur.com/rFNRx0N.jpg" alt="barber" class="img-fluid main-img">
+        </div>
+    </div>
+    <div class="form">
+        <h2 class="text-center mt-3 mb-3 form-title">BOOK YOUR APPOINTMENT</h2>
+        <form class="form-inline">
+            <div class="col-12 col-sm-6 input-group mt-2 mb-5"> 
+                <input id="firstName" name="firstName" placeholder="First Name" type="text" class="form-control" required="required">
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-5"> 
+                <input id="lastName" name="lastName" placeholder="Last Name" type="text" class="form-control" required="required">
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
+                <input id="email" name="email" placeholder="Email" type="text" class="form-control" required="required">
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
+                <input id="mobileNumber" name="mobileNumber" placeholder="Contact Number" type="text" class="form-control" required="required">
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
+                <select id="selectBarber" name="selectBarber" class="custom-select" required="required">
+                    <option selected>Select Barber</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-2">
+                <select id="selectService" name="selectService" class="custom-select" required="required">
+                    <option selected>Select Service</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
+                <select id="selectDate" name="selectDate" class="custom-select" required="required">
+                    <option selected>Select Date</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
+                <select id="selectHour" name="selectHour" class="custom-select" required="required">
+                    <option selected>Select Time</option>
+                </select>
+            </div>
+            <div class="col-12 input-group mt-2 mb-2"> 
+                <input id="price" name="price" placeholder="Select any service" type="text" class="form-control" readonly>
+            </div> 
+            <div class="col-12 input-group mt-5 mb-5">
+                <button name="submit" type="submit" class="btn btn-lg btn-block"> BOOK <span class="d-none d-sm-inline"> APPOINTMENT </span></button>
+            </div>
+        </form>
+    </div>
+</div>
+
