@@ -1,11 +1,11 @@
-<div class="container mt-4 mb-4 mr-5">
+<div class="mt-4 mb-4 mx-3">
     <h1 class="text-center mt-2 mb-2 main-title">BOOK YOUR BARBER</h1>
     <h2 class="text-center mt-2 mb-5 sub-title">
         Great Hair Doesn’t Happen By Chance. It Happens By Appointment! 
         <span class="d-none d-sm-block">So, Don't Wait And Book Your Appointment Now!</span>
     </h2>
 </div>
-<div class="container offset-md-1">
+<div class="container">
     <div class="position-relative col-12 mr-5">
         <div class="row bg-faded">
             <div class="">
@@ -19,12 +19,12 @@
     </div>
 </div>
 <div class="container">
-    <div class="form col-12 col-md-4">
+    <div class="form col-sm-12 col-md-6">
         <h2 class="text-center mt-3 mb-3 form-title">BOOK YOUR APPOINTMENT</h2>
         <form 
             [formGroup]="barbersForm"
             (ngSubmit)="onSubmit()"
-            class="form-inline"
+            class="form-inline align-items-start"
         >
             <div class="col-12 col-sm-6 input-group mt-2 mb-3"> 
                 <input 
@@ -32,7 +32,7 @@
                     name="firstName" 
                     placeholder="First Name" 
                     type="text" 
-                    class="form-control" 
+                    class="form-control col-12" 
                     required
                     formControlName="firstName"
                 >
@@ -51,7 +51,7 @@
                     name="lastName" 
                     placeholder="Last Name" 
                     type="text" 
-                    class="form-control" 
+                    class="form-control col-12" 
                     required
                     formControlName="lastName"
                 >
@@ -70,7 +70,7 @@
                     name="email" 
                     placeholder="Email" 
                     type="text" 
-                    class="form-control" 
+                    class="form-control col-12" 
                     required
                     formControlName="email"
                 >
@@ -89,7 +89,7 @@
                     name="contactNumber" 
                     placeholder="Contact Number" 
                     type="text" 
-                    class="form-control" 
+                    class="form-control col-12" 
                     required
                     formControlName="contactNumber"
                 >
@@ -104,7 +104,7 @@
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
                 <select 
-                    class="custom-select" 
+                    class="custom-select col-12" 
                     required
                 >
                     <option selected>Select Barber</option>
@@ -129,7 +129,7 @@
                 <select 
                     id="selectService" 
                     name="selectService" 
-                    class="custom-select" 
+                    class="custom-select col-12" 
                     required
                 >
                     <option value="" selected>Select Service</option>
@@ -154,7 +154,7 @@
                 <input 
                     id="selectDate" 
                     name="selectDate"
-                    class="custom-select" 
+                    class="custom-select col-12" 
                     required
                     formControlName="selectDate"
                     placeholder="Select Date"
@@ -178,7 +178,7 @@
                     placeholder="Select Hour"
                     name="selectHour" 
                     placement="bottom"
-                    class="custom-select"
+                    class="custom-select col-12"
                     required
                     formControlName="selectHour" 
                 >
@@ -197,7 +197,7 @@
                     name="price" 
                     placeholder="Select any service" 
                     type="text" 
-                    class="form-control" 
+                    class="form-control col-12" 
                     readonly
                 >
                     <option selected>Select Service</option>
