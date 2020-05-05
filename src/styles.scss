@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&family=Squada+One&display=swap');
+
 html {
     height: 100%;
 }
@@ -9,6 +13,20 @@ body {
     height: 100%;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
+// Date Picker color changes
+body .bs-datepicker-container .bs-datepicker-head {
+    background-color: #1c2743;
+}
+  
+body .bs-datepicker-container .bs-datepicker-head * {
+    color: white;
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&family=Squada+One&display=swap');
+body .theme-green .bs-datepicker-body table td.week span {
+    color: #fd9564;
+}
+
+body .theme-green .bs-datepicker-body table td span.selected {
+    background-color: #1c2743;
+    color: #fd9564;
+}

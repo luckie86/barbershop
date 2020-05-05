@@ -1,56 +1,231 @@
-<div class="container mt-4 mb-4">
+<div class="container mt-4 mb-4 mr-5">
     <h1 class="text-center mt-2 mb-2 main-title">BOOK YOUR BARBER</h1>
     <h2 class="text-center mt-2 mb-5 sub-title">
         Great Hair Doesn’t Happen By Chance. It Happens By Appointment! 
         <span class="d-none d-sm-block">So, Don't Wait And Book Your Appointment Now!</span>
     </h2>
-    <div class="row bg-faded">
-        <div class="col mx-auto text-center">
-            <img src="https://i.imgur.com/rFNRx0N.jpg" alt="barber" class="img-fluid main-img">
+</div>
+<div class="container offset-md-1">
+    <div class="position-relative col-12 mr-5">
+        <div class="row bg-faded">
+            <div class="">
+                <img 
+                    src="https://i.imgur.com/rFNRx0N.jpg" 
+                    alt="barber" 
+                    class="img-fluid main-img"
+                >
+            </div>
         </div>
     </div>
-    <div class="form">
+</div>
+<div class="container">
+    <div class="form col-12 col-md-4">
         <h2 class="text-center mt-3 mb-3 form-title">BOOK YOUR APPOINTMENT</h2>
-        <form class="form-inline">
-            <div class="col-12 col-sm-6 input-group mt-2 mb-5"> 
-                <input id="firstName" name="firstName" placeholder="First Name" type="text" class="form-control" required="required">
+        <form 
+            [formGroup]="barbersForm"
+            (ngSubmit)="onSubmit()"
+            class="form-inline"
+        >
+            <div class="col-12 col-sm-6 input-group mt-2 mb-3"> 
+                <input 
+                    id="firstName" 
+                    name="firstName" 
+                    placeholder="First Name" 
+                    type="text" 
+                    class="form-control" 
+                    required
+                    formControlName="firstName"
+                >
+                <div *ngIf="firstName.touched && firstName.invalid">
+                    <span 
+                        *ngIf="firstName.errors.required"
+                        class="text-danger"
+                    >
+                        Please enter your full name
+                    </span>
+                </div>
             </div>
-            <div class="col-12 col-sm-6 input-group mt-2 mb-5"> 
-                <input id="lastName" name="lastName" placeholder="Last Name" type="text" class="form-control" required="required">
+            <div class="col-12 col-sm-6 input-group mt-2 mb-3"> 
+                <input 
+                    id="lastName" 
+                    name="lastName" 
+                    placeholder="Last Name" 
+                    type="text" 
+                    class="form-control" 
+                    required
+                    formControlName="lastName"
+                >
+                <div *ngIf="lastName.touched">
+                    <span 
+                        *ngIf="lastName.errors.required"
+                        class="text-danger"
+                    >
+                        Please enter your last name
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <input id="email" name="email" placeholder="Email" type="text" class="form-control" required="required">
+                <input 
+                    id="email" 
+                    name="email" 
+                    placeholder="Email" 
+                    type="text" 
+                    class="form-control" 
+                    required
+                    formControlName="email"
+                >
+                <div *ngIf="email.touched && email.invalid">
+                    <span 
+                        *ngIf="email.errors.required"
+                        class="text-danger"
+                    >
+                        Please enter a valid email
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <input id="mobileNumber" name="mobileNumber" placeholder="Contact Number" type="text" class="form-control" required="required">
+                <input 
+                    id="contactNumber" 
+                    name="contactNumber" 
+                    placeholder="Contact Number" 
+                    type="text" 
+                    class="form-control" 
+                    required
+                    formControlName="contactNumber"
+                >
+                <div *ngIf="contactNumber.touched && contactNumber.invalid">
+                    <span 
+                        *ngIf="contactNumber.errors.required"
+                        class="text-danger"
+                    >
+                        Please enter phone number
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <select id="selectBarber" name="selectBarber" class="custom-select" required="required">
+                <select 
+                    class="custom-select" 
+                    required
+                >
                     <option selected>Select Barber</option>
+                    <option 
+                        *ngFor="let barber of barbers; index as i;"
+                        ngDefaultControl
+                        formControlName="selectBarber" 
+                        value="{{barber.id}}"
+                    >   {{barber.firstName}} {{barber.lastName}}
+                    </option>
                 </select>
+                <div *ngIf="selectBarber.touched && selectBarber.invalid">
+                    <span 
+                        *ngIf="selectBarber.errors.required"
+                        class="text-danger"
+                    >
+                        Please select a barber
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2">
-                <select id="selectService" name="selectService" class="custom-select" required="required">
-                    <option selected>Select Service</option>
+                <select 
+                    id="selectService" 
+                    name="selectService" 
+                    class="custom-select" 
+                    required
+                >
+                    <option value="" selected>Select Service</option>
+                    <option 
+                        *ngFor="let service of services; index as i;"
+                        ngDefaultControl 
+                        value="{{service.id}}"
+                        formControlName="selectService"
+                    >   {{service.name}}
+                    </option>
                 </select>
+                <div *ngIf="selectService.touched && selectService.invalid">
+                    <span 
+                        *ngIf="selectService.errors.required"
+                        class="text-danger"
+                    >
+                        Please select a service
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <select id="selectDate" name="selectDate" class="custom-select" required="required">
-                    <option selected>Select Date</option>
-                </select>
+                <input 
+                    id="selectDate" 
+                    name="selectDate"
+                    class="custom-select" 
+                    required
+                    formControlName="selectDate"
+                    placeholder="Select Date"
+                    bsDatepicker
+                    [bsValue]="bsInlineValue"
+                    [bsConfig]="{ isAnimated: true }"
+                >
+                <div *ngIf="selectDate.touched && selectDate.invalid">
+                    <span 
+                        *ngIf="selectDate.errors.required"
+                        class="text-danger"
+                    >
+                        Please pick a date
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <select id="selectHour" name="selectHour" class="custom-select" required="required">
-                    <option selected>Select Time</option>
-                </select>
+                <input
+                    [popover]="timePickerPopup" 
+                    [outsideClick]="true"
+                    placeholder="Select Hour"
+                    name="selectHour" 
+                    placement="bottom"
+                    class="custom-select"
+                    required
+                    formControlName="selectHour" 
+                >
+                <div *ngIf="selectHour.touched && selectHour.invalid">
+                    <span 
+                        *ngIf="selectHour.errors.required"
+                        class="text-danger"
+                    >
+                        Please pick a time
+                    </span>
+                </div>
             </div>
             <div class="col-12 input-group mt-2 mb-2"> 
-                <input id="price" name="price" placeholder="Select any service" type="text" class="form-control" readonly>
+                <select 
+                    id="price" 
+                    name="price" 
+                    placeholder="Select any service" 
+                    type="text" 
+                    class="form-control" 
+                    readonly
+                >
+                    <option selected>Select Service</option>
+                    <option 
+                        *ngFor="let service of services; index as i;"
+                        ngDefaultControl
+                        formControlName="price"
+                        value="{{service.id}}"
+                    >   {{service.price}} €
+                    </option>
+                </select>
             </div> 
             <div class="col-12 input-group mt-5 mb-5">
-                <button name="submit" type="submit" class="btn btn-lg btn-block"> BOOK <span class="d-none d-sm-inline"> APPOINTMENT </span></button>
+                <button 
+                    type="submit" 
+                    class="btn btn-block"
+                > BOOK <span class="d-none d-sm-inline"> APPOINTMENT </span>
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+<ng-template #timePickerPopup>
+    <timepicker 
+        [(ngModel)]="bsInlineValue" 
+        [showMeridian]="false"
+        class="w-50"
+    >
+    </timepicker>
+</ng-template>

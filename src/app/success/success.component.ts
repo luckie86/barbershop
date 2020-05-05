@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GiphyService } from '../core/giphy.service';
 
 @Component({
   selector: 'app-success',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SuccessComponent implements OnInit {
 
-  constructor() { }
+  randomGiphUrl;
+
+  constructor(private giphyService: GiphyService) { }
 
   ngOnInit(): void {
+    this.giphyService.getGifs().subscribe((response: any) => {
+      const randomGiph = Math.floor(Math.random() * 25);
+      this.randomGiphUrl = response.data[randomGiph].images.original.url;
+    });
   }
 
 }

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   IMAGE: "https://i.imgur.com/rFNRx0N.jpg",
+  GIPHY_API: "http://api.giphy.com/v1/gifs/search?api_key=KeTn0RgXZQF8EDkUGgQmSaJYuWPEz5mI&q=barber",
   ROUTES: {
     BARBERS_ROUTE: "http://localhost:3000/barbers",
     APPOINTMENTS_ROUTE: "http://localhost:3000/appointments",
