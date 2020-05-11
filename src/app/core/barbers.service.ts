@@ -25,4 +25,8 @@ export class BarbersService {
     return this.http.get(environment.ROUTES.WORK_HOURS_ROUTE);
   }
 
+  saveAppointment(appointment) {
+    return this.http.post(environment.ROUTES.APPOINTMENTS_ROUTE, appointment);
+  }
+
 }

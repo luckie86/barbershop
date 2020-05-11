@@ -38,7 +38,7 @@
                 >
                 <div *ngIf="firstName.touched && firstName.invalid">
                     <span 
-                        *ngIf="firstName.errors.required"
+                        *ngIf="firstName.errors?.required"
                         class="text-danger"
                     >
                         Please enter your full name
@@ -57,7 +57,7 @@
                 >
                 <div *ngIf="lastName.touched">
                     <span 
-                        *ngIf="lastName.errors.required"
+                        *ngIf="lastName.errors?.required"
                         class="text-danger"
                     >
                         Please enter your last name
@@ -76,7 +76,7 @@
                 >
                 <div *ngIf="email.touched && email.invalid">
                     <span 
-                        *ngIf="email.errors.required"
+                        *ngIf="email.errors?.required"
                         class="text-danger"
                     >
                         Please enter a valid email
@@ -95,7 +95,7 @@
                 >
                 <div *ngIf="contactNumber.touched && contactNumber.invalid">
                     <span 
-                        *ngIf="contactNumber.errors.required"
+                        *ngIf="contactNumber.errors?.required"
                         class="text-danger"
                     >
                         Please enter phone number
@@ -103,22 +103,26 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <select 
+                <select
+                    (change)="onSelectBarber()"
+                    formControlName="selectBarber" 
                     class="custom-select col-12" 
                     required
                 >
-                    <option selected>Select Barber</option>
+                    <option 
+                        [ngValue]="null"
+                        disabled
+                    >   Select Barber
+                    </option>
                     <option 
                         *ngFor="let barber of barbers; index as i;"
-                        ngDefaultControl
-                        formControlName="selectBarber" 
-                        value="{{barber.id}}"
+                        [ngValue]="barber"
                     >   {{barber.firstName}} {{barber.lastName}}
                     </option>
                 </select>
                 <div *ngIf="selectBarber.touched && selectBarber.invalid">
                     <span 
-                        *ngIf="selectBarber.errors.required"
+                        *ngIf="selectBarber.errors?.required"
                         class="text-danger"
                     >
                         Please select a barber
@@ -126,24 +130,26 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2">
-                <select 
-                    id="selectService" 
-                    name="selectService" 
+                <select
+                    (change)="onSelectService()" 
+                    formControlName="selectService"
                     class="custom-select col-12" 
                     required
                 >
-                    <option value="" selected>Select Service</option>
+                    <option 
+                        [ngValue]="null"
+                        disabled
+                    >   Select Service
+                    </option>
                     <option 
                         *ngFor="let service of services; index as i;"
-                        ngDefaultControl 
-                        value="{{service.id}}"
-                        formControlName="selectService"
+                        [ngValue]="service"
                     >   {{service.name}}
                     </option>
                 </select>
                 <div *ngIf="selectService.touched && selectService.invalid">
                     <span 
-                        *ngIf="selectService.errors.required"
+                        *ngIf="selectService.errors?.required"
                         class="text-danger"
                     >
                         Please select a service
@@ -151,7 +157,11 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
-                <input 
+                <input
+                    [daysDisabled]="[6,0]"
+                    [bsConfig]="{ isAnimated: true }"
+                    (bsValueChange)="onSelectDate($event)"
+                    [outsideClick]="true" 
                     id="selectDate" 
                     name="selectDate"
                     class="custom-select col-12" 
@@ -159,12 +169,10 @@
                     formControlName="selectDate"
                     placeholder="Select Date"
                     bsDatepicker
-                    [bsValue]="bsInlineValue"
-                    [bsConfig]="{ isAnimated: true }"
                 >
                 <div *ngIf="selectDate.touched && selectDate.invalid">
                     <span 
-                        *ngIf="selectDate.errors.required"
+                        *ngIf="selectDate.errors?.required"
                         class="text-danger"
                     >
                         Please pick a date
@@ -173,18 +181,17 @@
             </div>
             <div class="col-12 col-sm-6 input-group mt-2 mb-2"> 
                 <input
-                    [popover]="timePickerPopup" 
+                    [popover]="timePickerPopup"
                     [outsideClick]="true"
-                    placeholder="Select Hour"
-                    name="selectHour" 
+                    formControlName="selectHour"
+                    placeholder="Select Hour" 
                     placement="bottom"
                     class="custom-select col-12"
-                    required
-                    formControlName="selectHour" 
+                    required 
                 >
                 <div *ngIf="selectHour.touched && selectHour.invalid">
                     <span 
-                        *ngIf="selectHour.errors.required"
+                        *ngIf="selectHour.errors?.required"
                         class="text-danger"
                     >
                         Please pick a time
@@ -192,26 +199,25 @@
                 </div>
             </div>
             <div class="col-12 input-group mt-2 mb-2"> 
-                <select 
-                    id="price" 
-                    name="price" 
+                <select
+                    formControlName="price"
                     placeholder="Select any service" 
-                    type="text" 
                     class="form-control col-12" 
                     readonly
                 >
-                    <option selected>Select Service</option>
-                    <option 
-                        *ngFor="let service of services; index as i;"
-                        ngDefaultControl
-                        formControlName="price"
-                        value="{{service.id}}"
-                    >   {{service.price}} €
+                    <option
+                        *ngIf="!selectedService"
+                    >   Select Service
+                    </option>
+                    <option
+                        *ngIf="selectedService"
+                    >   {{selectedService.price}} €
                     </option>
                 </select>
             </div> 
             <div class="col-12 input-group mt-5 mb-5">
-                <button 
+                <button
+                    [disabled]="" 
                     type="submit" 
                     class="btn btn-block"
                 > BOOK <span class="d-none d-sm-inline"> APPOINTMENT </span>
@@ -222,10 +228,10 @@
 </div>
 
 <ng-template #timePickerPopup>
-    <timepicker 
-        [(ngModel)]="bsInlineValue" 
+    <timepicker
         [showMeridian]="false"
-        class="w-50"
-    >
-    </timepicker>
+        [(ngModel)]="selectedTime"
+        [minuteStep]="10"
+        (ngModelChange)="onSelectTime($event)"
+    ></timepicker>
 </ng-template>
