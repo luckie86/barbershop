@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarbersService } from '../core/barbers.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as moment from "moment";
 import 'moment/locale/sl';
 import { defineLocale } from 'ngx-bootstrap/chronos';
@@ -32,6 +33,7 @@ export class BarbersComponent implements OnInit {
   selectedTime = null;
   selectedWeekNumber = null;
   fetchedBarberWorkingHoursForSelectedDay = null;
+  confirmedAppointment = false;
   barbersForm: FormGroup;
 
   get firstName() { return this.barbersForm.get('firstName'); }
@@ -44,7 +46,7 @@ export class BarbersComponent implements OnInit {
   get selectHour() { return this.barbersForm.get('selectHour'); }
   get price() { return this.barbersForm.get('price'); }
 
-  constructor(private barbersService: BarbersService, private localeService: BsLocaleService) { }
+  constructor(private barbersService: BarbersService, private localeService: BsLocaleService, private router: Router) { }
 
   ngOnInit(): void {
     this.localeService.use(this.locale);
@@ -79,12 +81,12 @@ export class BarbersComponent implements OnInit {
     });
   }
 
-  onSelectService() {
-    this.selectedService = this.selectService.value
-  }
-
   onSelectBarber() {
     this.selectedBarber = this.selectBarber.value
+  }
+
+  onSelectService() {
+    this.selectedService = this.selectService.value
   }
 
   onSelectDate(date) {
@@ -120,7 +122,7 @@ export class BarbersComponent implements OnInit {
     if (!this.fetchedBarberWorkingHoursForSelectedDay) {
       return alert("Please select Date first");
     }
-    
+
     this.selectedTime = moment(time).format("HH:mm");
     this.barbersForm.patchValue({'selectHour': this.selectedTime});
     
@@ -137,16 +139,13 @@ export class BarbersComponent implements OnInit {
 
     // and check if selected TIME in working hours and not in lunch break
     if ((selectedHour >= startHour && selectedHour <= endHour) 
-    && (selectedHour < startLunchHour || selectedHour > endLunchHour)) {
-      const selectedTime = moment(time);
-      this.selectedStartDateTimeUnix = moment(this.selectedDate)
-        .add(selectedTime.hour(), "hours")
-        .add(selectedTime.minute(), "minutes")
-        .unix()
-      this.selectedEndDateTimeUnix = moment.unix(this.selectedStartDateTimeUnix).add(this.selectedService.durationMinutes, "minutes").unix();
-      
-      console.log(moment.unix(this.selectedStartDateTimeUnix).format("DD.MM.YYYY HH:mm"), moment.unix(this.selectedEndDateTimeUnix).format("DD.MM.YYYY HH:mm"));
-    
+      && (selectedHour < startLunchHour || selectedHour > endLunchHour)) {
+        const selectedTime = moment(time);
+        this.selectedStartDateTimeUnix = moment(this.selectedDate)
+          .add(selectedTime.hour(), "hours")
+          .add(selectedTime.minute(), "minutes")
+          .unix()
+        this.selectedEndDateTimeUnix = moment.unix(this.selectedStartDateTimeUnix).add(this.selectedService.durationMinutes, "minutes").unix();      
     }
   }
 
@@ -161,17 +160,31 @@ export class BarbersComponent implements OnInit {
           const fetchedAppointmentsDurationMinutes = this.selectedService.durationMinutes;
           const fetchedAppointmentsEndTimeUnix = moment.unix(fetchedAppointmentsStartTimeUnix).add(fetchedAppointmentsDurationMinutes, "minutes").unix();
 
-          if (false) {
-            return alert("Appointment already taken");
+          if ((this.selectedStartDateTimeUnix > fetchedAppointmentsStartTimeUnix || this.selectedStartDateTimeUnix < fetchedAppointmentsStartTimeUnix) 
+            && (this.selectedEndDateTimeUnix > fetchedAppointmentsEndTimeUnix || this.selectedEndDateTimeUnix < fetchedAppointmentsEndTimeUnix)) {
+             this.confirmedAppointment = true;
           } else {
-            const body = {
-              startDate: this.selectedDateUnix,
-              barberId: this.selectedBarber?.id,
-              serviceId: this.selectedService?.id
-            }
-            this.barbersService.saveAppointment(body);
+            this.confirmedAppointment = false;
+            return alert("Appointment already taken");
           }
         });
+        if (this.confirmedAppointment) {
+          const body = {
+            startDate: this.selectedStartDateTimeUnix,
+            barberId: this.selectedBarber?.id,
+            serviceId: this.selectedService?.id
+          }
+          this.barbersService.saveAppointment(body).subscribe((response)=> {
+            if(response) {
+              this.router.navigate(["/success"]);
+            } else {
+              return alert("Something went wrong");
+            }
+          });
+          
+        } else {
+          return alert("Please pick another time");
+        }
       });
     }
   }
