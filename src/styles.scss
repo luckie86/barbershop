@@ -29,3 +29,7 @@ body .theme-green .bs-datepicker-body table td span.selected {
     background-color: #1c2743;
     color: #fd9564;
 }
+ // Datepicker inside popover fix
+.bs-timepicker-field {
+    width: 50px !important;
+}

@@ -12,7 +12,14 @@ export interface Barber {
     workHours: WorkHours[];
 }
 
-interface WorkHours {
+export interface Service {
+    id: number;
+    name: string;
+    durationMinutes: number;
+    price: string;
+}
+
+export interface WorkHours {
     id: number;
     day: number;
     startHour: number;

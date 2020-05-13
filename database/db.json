@@ -100,6 +100,18 @@
       "barberId": 1,
       "serviceId": 3,
       "id": 7
+    },
+    {
+      "startDate": 1590476400,
+      "barberId": 1,
+      "serviceId": 2,
+      "id": 8
+    },
+    {
+      "startDate": 1590498000,
+      "barberId": 1,
+      "serviceId": 1,
+      "id": 9
     }
   ],
   "workHours": [

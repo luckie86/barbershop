@@ -8,14 +8,14 @@ import { GiphyService } from '../core/giphy.service';
 })
 export class SuccessComponent implements OnInit {
 
-  randomGiphUrl;
+  randomGifUrl;
 
   constructor(private giphyService: GiphyService) { }
 
   ngOnInit(): void {
     this.giphyService.getGifs().subscribe((response: any) => {
-      const randomGiph = Math.floor(Math.random() * 25);
-      this.randomGiphUrl = response.data[randomGiph].images.original.url;
+      const randomGifNumber = Math.floor(Math.random() * 25);
+      this.randomGifUrl = response?.data[randomGifNumber]?.images?.original?.url;
     });
   }
 
